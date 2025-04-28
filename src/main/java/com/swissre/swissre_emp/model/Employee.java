@@ -3,14 +3,11 @@ package com.swissre.swissre_emp.model;
 import lombok.*;
 
 @ToString
-//@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class Employee {
-    @Getter
     private int id;
-    @Getter @Setter
     private String firstName;
     private String lastName;
     private int managerId;

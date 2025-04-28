@@ -17,7 +17,7 @@ public class FileLoader {
     public static void loadData() {
         System.out.println("Enter csv file path, else program will take mock data");
         EmployeeCache employeeCache = EmployeeCache.getInstance();
-        BufferedReader reader = null;
+        BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader("MOCK_DATA3.csv"));
         } catch (FileNotFoundException e) {
@@ -26,10 +26,10 @@ public class FileLoader {
         }
 
         Map<String, String> employeManagerMap = new HashMap<>();
-        String line = null;
+        String line;
         while (true) {
             try {
-                if (!((line = reader.readLine()) != null)) break;
+                if ((line = reader.readLine()) == null) break;
             } catch (IOException e) {
                 System.err.println("IOException blank line: "+e.getMessage());
                 throw new RuntimeException(e);
@@ -39,8 +39,6 @@ public class FileLoader {
             if(employee !=null) {
                 employeeCache.addEmployee(employee);
                 employeManagerMap.put(employee.getId()+"",employee.getManagerId()+"");
-            } else {
-                continue;
             }
         }
         System.err.println("employeManagerMap: "+employeManagerMap.size());
