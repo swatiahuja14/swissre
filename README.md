@@ -24,3 +24,5 @@ needed.
 • If you have any doubts make a sensible assumption and document it
 When you're ready with your assignment please send us link to an online code repository (github,
 bitbucket, etc.) so we can review your code.
+
+<img width="898" alt="image" src="https://github.com/user-attachments/assets/ada2eb0d-e6ba-46e9-b0b3-a4d0ae1883a9" />
