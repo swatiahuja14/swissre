@@ -17,7 +17,7 @@ public class FileLoader {
         String filename = scanner.nextLine();
 
         if(filename==null || filename.isEmpty()){
-            filename = "MOCK_DATA2.csv";
+            filename = "MOCK_DATA1.csv";
             System.out.println("Filename not provided program is taking " +
                     "mock data from "+filename);
         }
