@@ -15,11 +15,19 @@ public class FileLoader {
         loadData();
     }
     public static void loadData() {
-        System.out.println("Enter csv file path, else program will take mock data");
+        System.out.println("Enter csv file path, else Enter for program to take mock data");
+        Scanner scanner = new Scanner(System.in);
+        String filename = scanner.nextLine();
+
+        if(filename==null || filename.isEmpty()){
+            System.out.println("Filename not provided program is taking " +
+                    "mock data");
+            filename = "MOCK_DATA3.csv";
+        }
         EmployeeCache employeeCache = EmployeeCache.getInstance();
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader("MOCK_DATA3.csv"));
+            reader = new BufferedReader(new FileReader(filename));
         } catch (FileNotFoundException e) {
             System.err.println("FileNotFound "+e.getMessage());
             throw new RuntimeException(e);
