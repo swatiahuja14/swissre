@@ -16,7 +16,7 @@ public class DataGenerator {
     static int id = 1;
 
     public static List<Employee> createEmployees(int parent, int level, List<String> fNames, List<String> lnames){
-        if(level >=8 || id>=1000){
+        if(level >=8 || id>=999){
             return new ArrayList<>();
         }
         List<Employee> ids = new ArrayList<>();
@@ -26,13 +26,14 @@ public class DataGenerator {
             int l = 10-level;
             int salary = (l*10000) + (id*10);
             Employee e = new Employee(id,fNames.get(id),lnames.get(id),parent, salary);
-            //System.out.println(e);
+            System.out.println(e);
             ids.add(e);
         }
         return ids;
     }
+
     public static void generateDataCSV() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("MOCK_DATA1.csv"));
+        BufferedReader reader = new BufferedReader(new FileReader("DummyNames.csv"));
         List<String> fnames = new ArrayList<>();
         List<String> lnames = new ArrayList<>();
         String line = null;
@@ -77,12 +78,12 @@ public class DataGenerator {
             writer.write(e.getId()+","+e.getFirstName()+","+e.getLastName()+","+e.getSalary()+","+e.getManagerId());
             writer.newLine();
         }
-        writer.write(1+", James, Hollick,"+2500000);
+        writer.write(1+", James, Hollick,"+150000);
         writer.newLine();
         writer.flush();
         writer.close();
 
 
-       System.out.println(emps.size());
+       System.out.println("Total employees:"+emps.size());
     }
 }

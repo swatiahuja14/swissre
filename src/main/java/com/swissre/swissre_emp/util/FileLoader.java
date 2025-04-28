@@ -1,7 +1,6 @@
 package com.swissre.swissre_emp.util;
 
 import com.swissre.swissre_emp.cache.EmployeeCache;
-import com.swissre.swissre_emp.cache.ManagerCache;
 import com.swissre.swissre_emp.model.Employee;
 
 import java.io.BufferedReader;
@@ -11,18 +10,16 @@ import java.io.IOException;
 import java.util.*;
 
 public class FileLoader {
-    public static void main(String[] args){
-        loadData();
-    }
+
     public static void loadData() {
-        System.out.println("Enter csv file path, else Enter for program to take mock data");
+        System.err.println("Enter csv file path, else press Enter/any key for program to take mock data");
         Scanner scanner = new Scanner(System.in);
         String filename = scanner.nextLine();
 
         if(filename==null || filename.isEmpty()){
+            filename = "MOCK_DATA1.csv";
             System.out.println("Filename not provided program is taking " +
-                    "mock data");
-            filename = "MOCK_DATA3.csv";
+                    "mock data from "+filename);
         }
         EmployeeCache employeeCache = EmployeeCache.getInstance();
         BufferedReader reader;
@@ -33,78 +30,21 @@ public class FileLoader {
             throw new RuntimeException(e);
         }
 
-        Map<String, String> employeManagerMap = new HashMap<>();
         String line;
         while (true) {
             try {
                 if ((line = reader.readLine()) == null) break;
             } catch (IOException e) {
                 System.err.println("IOException blank line: "+e.getMessage());
-                throw new RuntimeException(e);
+                //throw new RuntimeException(e);
+                continue;
             }
             //System.out.println(line);
-            Employee employee = createEmployee(line);
+            Employee employee = EmployeeValidator.validateAndCreateEmployee(line);
             if(employee !=null) {
                 employeeCache.addEmployee(employee);
-                employeManagerMap.put(employee.getId()+"",employee.getManagerId()+"");
             }
         }
-        System.err.println("employeManagerMap: "+employeManagerMap.size());
-
-        Map<String, Integer> employeeLevels = new HashMap<>();
-        for(String emp :employeManagerMap.keySet()){
-            int count =0;
-            String mgr = employeManagerMap.get(emp);
-            while(mgr!=null){
-                count++;
-                //System.out.println(emp+" "+mgr+" "+count);
-                mgr = employeManagerMap.get(mgr);
-            }
-            if(count>4){
-                employeeLevels.put(emp,count);
-            }
-        }
-        System.out.println(employeeLevels.size());
-
-        ManagerCache managerCache = new ManagerCache();
-        managerCache.initialize(employeeCache);
-        System.err.println("managerCache: "+managerCache.getCeo());
-
-        List<Employee> e4 = managerCache.getEmployeesWithMoreThan4Levels(employeeCache);
-        System.out.println("getEmployeesWithMoreThan4Levels " +e4.size() + " [ "+e4);
-
-        List<Employee> m5 = managerCache.mgrsWithSalaryGT50();
-        System.out.println("mgrsWithSalaryGT50 " +m5.size() + " [ "+m5);
-
-        List<Employee> m2 = managerCache.mgrsWithSalaryLT20();
-        System.out.println("mgrsWithSalaryLT20 " +m2.size() + " [ "+m2);
-
-    }
-
-    private static Employee createEmployee(String line) {
-        String[] employeString = line.trim().split(",");
-        if(employeString.length<4){
-            return null;
-        }
-        try{
-            Integer.parseInt(employeString[0]);
-        } catch (Exception e){
-            throw new RuntimeException("Invalid Id, Id should only be int");
-        }
-
-        try{
-            Integer.parseInt(employeString[3]);
-        } catch (Exception e){
-            throw new RuntimeException("Invalid salary, salary should only be int/whole numbers");
-        }
-
-        /*try{
-            Integer.parseInt(employeString[4]);
-        } catch (Exception e){
-            throw new RuntimeException("Invalid Mgr Id, Id should only be int");
-        }*/
-        
-        String mgrid = employeString.length>=5?employeString[4]:"0";
-        return new Employee(Integer.parseInt(employeString[0]), employeString[1], employeString[2], Integer.parseInt(mgrid), Integer.parseInt(employeString[3]));
+        System.err.println("employeeCache: "+employeeCache.getAll().size());
     }
 }
