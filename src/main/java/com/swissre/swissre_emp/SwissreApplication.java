@@ -30,7 +30,7 @@ public class SwissreApplication implements CommandLineRunner {
 		EmployeeCalculationEngine employeeCalculationEngine = new EmployeeCalculationEngine();
 		employeeCalculationEngine.initializeEmployeeValues();
 
-		System.err.println("Enter false to display numbers only, else program will print employees");
+		System.err.println("Enter false to display numbers only, else press any key for program to print employees details");
 		Scanner scanner = new Scanner(System.in);
 		boolean flagToPrint = true;
 		try {
