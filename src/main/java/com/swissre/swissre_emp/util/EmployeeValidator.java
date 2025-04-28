@@ -20,7 +20,7 @@ public class EmployeeValidator {
             Integer.parseInt(employeString[0]);
         } catch (Exception e){
             //throw new RuntimeException("Invalid Id, Id should only be int");
-           System.err.println("Invalid Id, Id should only be int "+employeString[0]);
+           System.err.println("Invalid Id or First row "+employeString[0]);
            return null;
         }
 

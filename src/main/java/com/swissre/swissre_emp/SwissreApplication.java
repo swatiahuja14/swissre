@@ -30,29 +30,29 @@ public class SwissreApplication implements CommandLineRunner {
 		EmployeeCalculationEngine employeeCalculationEngine = new EmployeeCalculationEngine();
 		employeeCalculationEngine.initializeEmployeeValues();
 
-		System.err.println("Enter true to display employee details, else program will only print number of employees");
+		System.err.println("Enter false to display numbers only, else program will print employees");
 		Scanner scanner = new Scanner(System.in);
-		boolean flagToPrint = false;
+		boolean flagToPrint = true;
 		try {
 			flagToPrint = scanner.nextBoolean();
 		} catch (Exception e){
-			System.out.println("System will print no of employees only");
+			System.out.println("System will print details of employees");
 		}
 
-		System.err.print("No of Employees With More Than 4 Levels from CEO: ");
+		System.err.print("Employees who have a reporting line which is too long, No of Employees With More Than 4 Levels from CEO: ");
 		System.err.print(employeeService.getEmployeesWithMoreThanNLevels(4, flagToPrint).size());
 		System.err.println();
 		System.err.println("---------------");
 
 
 
-		System.err.print("No of Employees Managers With Salary Less than 20% more than avg reportees: ");
+		System.err.print(" managers earn less than they should, No of Employees Managers With Salary Less than 20% more than avg reportees: ");
 		System.err.print(employeeService.mgrsWithSalaryLT20(flagToPrint).size());
 		System.err.println();
 		System.err.println("---------------");
 
 
-		System.err.print("No of Employees Managers With Salary More than 50% of avg reportees: ");
+		System.err.print(" managers who earn more than they should, No of Employees Managers With Salary More than 50% of avg reportees: ");
 		System.err.print(employeeService.mgrsWithSalaryGT50(flagToPrint).size());
 		System.err.println();
 		System.err.println("---------------");

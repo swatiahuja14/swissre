@@ -1,10 +1,7 @@
 package com.swissre.swissre_emp.service;
 
 import com.swissre.swissre_emp.cache.EmployeeCache;
-import com.swissre.swissre_emp.util.EmployeeCalculationEngine;
 import com.swissre.swissre_emp.model.Employee;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -27,7 +24,7 @@ public class EmployeeService {
             if(e.getLevelFromCEO()>level){
                 employeeList.add(e);
                 if(print){
-                    System.out.println(e.getFullName()+", levels:"+e.getLevelFromCEO());
+                    System.out.println(e.getFullName()+", extra levels:"+(e.getLevelFromCEO()-level) + " "+e);
                 }
             }
         }
@@ -38,11 +35,15 @@ public class EmployeeService {
         List<Employee> mgrs = new ArrayList<>();
         for(Employee e: employeeCache.getAll()){
             if(e.getAvgSalaryOfDirectReportees()>0) {
-                double diff = e.getSalary() - 1.5 * e.getAvgSalaryOfDirectReportees();
-                if (e.getSalary() > (1.5 * e.getAvgSalaryOfDirectReportees())) {
+                double max = 1.5 * e.getAvgSalaryOfDirectReportees();
+                //System.out.println(e.getFullName()+ " sal:"+e.getSalary()+" avg:"+e.getAvgSalaryOfDirectReportees() + " max:"+max);
+                if (e.getSalary() > max) {
                     mgrs.add(e);
+                    //System.out.println("---->"+e.getFullName()+ " sal:"+e.getSalary()+" avg:"+e.getAvgSalaryOfDirectReportees() + " max:"+max);
+
                     if (print) {
-                        System.out.println(e.getFullName()+ ", difference above 50%:" + diff);
+                        double diff = e.getSalary() - max;
+                        System.out.println(e.getFullName()+ ", difference above 50%:" + diff + " "+e);
                     }
                 }
             }
@@ -54,11 +55,15 @@ public class EmployeeService {
         List<Employee> mgrs = new ArrayList<>();
         for (Employee e : employeeCache.getAll()) {
             if(e.getAvgSalaryOfDirectReportees()>0) {
-                double diff = (1.2 * e.getAvgSalaryOfDirectReportees() - e.getSalary());
-                if (e.getSalary() < (1.2 * e.getAvgSalaryOfDirectReportees())) {
+                double min = 1.2 * e.getAvgSalaryOfDirectReportees();
+                //System.out.println(e.getFullName()+ " sal:"+e.getSalary()+" avg:"+e.getAvgSalaryOfDirectReportees() + " min:"+min);
+                if (e.getSalary() < min) {
                     mgrs.add(e);
+                    //System.out.println(">>>  "+e.getFullName()+ " sal:"+e.getSalary()+" avg:"+e.getAvgSalaryOfDirectReportees() + " min:"+min);
+
                     if (print) {
-                        System.out.println(e.getFullName() + ", difference less than 120% :" + diff);
+                        double diff = (min - e.getSalary());
+                        System.out.println(e.getFullName() + ", difference less than 120% :" + diff + " "+e);
                     }
                 }
             }
